@@ -1,0 +1,9 @@
+#ifndef ROOMFLOW_CONFIG_H
+#define ROOMFLOW_CONFIG_H
+
+#define ENTRY_TRIG_PIN 8
+#define ENTRY_ECHO_PIN 9
+
+#define ENTRY_THRESHOLD_CM 20
+
+#endif;

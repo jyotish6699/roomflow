@@ -1,32 +1,34 @@
 #include <Arduino.h>
+#include "sensors/entry_gate_sensor.h"
+#include "config/roomflow_config.h"
 
-#define ECHO 9
-#define TRIG 8
+EntryGateSensor entrySensor(ENTRY_TRIG_PIN, ENTRY_ECHO_PIN);
 
-void setup() {
+bool previousState = false;
 
+void setup()
+{
     Serial.begin(9600);
 
-    pinMode(TRIG, OUTPUT);
-    pinMode(ECHO, INPUT);
+    entrySensor.begin();
 }
 
-void loop() {
+void loop()
+{
+    float distance = entrySensor.getDistance();
 
-    digitalWrite(TRIG, LOW);
-    delayMicroseconds(2);
+    bool triggered = false;
 
-    digitalWrite(TRIG, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG, LOW);
-
-    long duration = pulseIn(ECHO, HIGH);
-
-    float distance = duration * 0.0343 / 2;
+    if(distance >= 0)
+    {
+        triggered = distance < ENTRY_THRESHOLD_CM;
+    }
 
     Serial.print("Distance: ");
-    Serial.print(distance);
-    Serial.println(" cm");
+    Serial.println(distance);
+
+    Serial.print("Triggered: ");
+    Serial.println(triggered);
 
     delay(500);
 }
