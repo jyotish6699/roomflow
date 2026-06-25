@@ -15,4 +15,7 @@
 #define SERVO_CENTER_ANGLE 90
 #define SERVO_RIGHT_ANGLE 135
 
+#define SERVO_SETTLE_TIME_MS 300
+
+
 #endif;
