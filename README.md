@@ -1,115 +1,206 @@
 # RoomFlow
 
-RoomFlow is an embedded occupancy detection and counting system designed to monitor room usage through doorway-based sensing.
+RoomFlow is an embedded occupancy detection and room automation system designed to monitor room usage through doorway-based sensing.
 
-The system detects people entering and leaving a room, maintains an occupancy count, and provides a reliable foundation for room automation systems.
+The system detects people entering and leaving a room, maintains an accurate occupancy count, and automatically controls room lighting based on occupancy.
 
-RoomFlow is being developed using Arduino, PlatformIO, and C++ with a strong focus on modular architecture, maintainability, and real-world reliability.
+RoomFlow is built using Arduino, PlatformIO, and C++ with a modular, event-driven architecture focused on maintainability, reliability, and incremental development.
 
 ---
 
 ## Problem
 
-Many room automation systems depend only on motion sensors.
+Traditional room automation systems rely primarily on motion sensors.
 
-This creates several problems:
+This creates several limitations:
 
-* Lights may remain ON when nobody is present.
-* Lights may turn OFF while a person is sitting still.
-* The system cannot determine how many people are inside.
-* Motion detection alone cannot distinguish entry from exit.
+- Lights remain ON even when the room is empty.
+- Lights turn OFF while someone is sitting still.
+- The system cannot determine how many people are inside.
+- Motion detection cannot distinguish entry from exit.
 
-RoomFlow addresses these limitations by tracking room occupancy through doorway events.
+RoomFlow addresses these limitations by tracking doorway events and maintaining a live occupancy count.
+
+---
+
+## Features
+
+- Entry Gate occupancy detection
+- Exit Gate occupancy detection
+- Servo-assisted doorway scanning
+- Event-driven architecture
+- Occupancy state machine
+- Live occupancy counter
+- Automatic light control
+- Modular software architecture
 
 ---
 
 ## How It Works
 
-RoomFlow monitors a doorway using multiple sensors.
-
-When a person crosses the doorway, the system analyzes the sequence of sensor activations to determine whether the person entered or exited.
-
-Based on these events, RoomFlow maintains an occupancy count.
+```
+              Person
+                 │
+                 ▼
+      Entry / Exit Gate Sensors
+                 │
+                 ▼
+        Event Generation Layer
+                 │
+                 ▼
+     Occupancy State Machine
+                 │
+                 ▼
+        Occupancy Engine
+                 │
+                 ▼
+      Automatic Light Controller
+                 │
+                 ▼
+             Relay Output
+```
 
 Example:
 
-```text
+```
 Person Enters
-    ↓
-Occupancy Count = 1
+      ↓
+Occupancy = 1
+Light = ON
 
 Another Person Enters
-    ↓
-Occupancy Count = 2
+      ↓
+Occupancy = 2
+Light = ON
 
 One Person Exits
-    ↓
-Occupancy Count = 1
+      ↓
+Occupancy = 1
+Light = ON
+
+Last Person Exits
+      ↓
+Occupancy = 0
+Light = OFF
 ```
 
 ---
 
-## Current Objective
+## System Architecture
 
-The current objective is to build a reliable occupancy counting engine capable of:
-
-* Detecting room entry
-* Detecting room exit
-* Maintaining occupancy count
-* Handling invalid sensor sequences
-* Preventing incorrect counting
-* Managing edge cases through state-machine logic
-
----
-
-## Design Principles
-
-### Event Driven
-
-Sensor readings are converted into events which are processed by the occupancy engine.
-
-### Modular
-
-Hardware, occupancy logic, configuration, diagnostics, and event handling are separated into independent modules.
-
-### Reliability First
-
-The primary focus is reducing counting errors and handling real-world edge cases.
-
-### Incremental Development
-
-Features are added only after the occupancy engine is stable and verified.
-
----
-
-## Technology Stack
-
-* Arduino Uno R3
-* PlatformIO
-* C++
-* Git
-* GitHub
-
----
-
-## Project Structure
-
-```text
+```
 src/
+├── actuators/
+│   └── servo_scanner
+│
+├── automation/
+│   └── light_controller
+│
 ├── config/
-├── diagnostics/
+│
 ├── events/
+│   ├── event
+│   └── event_type
+│
+├── gateways/
+│   ├── entry_gate
+│   └── exit_gate
+│
 ├── occupancy/
+│   ├── occupancy_action
+│   ├── occupancy_engine
+│   ├── occupancy_state
+│   └── occupancy_state_machine
+│
 ├── sensors/
+│   ├── entry_gate_sensor
+│   └── exit_gate_sensor
+│
 └── main.cpp
 ```
 
 ---
 
+## Software Architecture
+
+```
+Sensors
+    │
+    ▼
+Gateways
+    │
+    ▼
+Events
+    │
+    ▼
+Occupancy State Machine
+    │
+    ▼
+Occupancy Engine
+    │
+    ▼
+Automation
+```
+
+---
+
+## Technology Stack
+
+- Arduino Uno R3
+- PlatformIO
+- C++
+- Git
+- GitHub
+
+---
+
 ## Current Status
 
-Version: V0.1
+**Version**
 
-Phase: Architecture Setup
+```
+v0.1.0
+```
 
-Focus: Occupancy Detection and Counting Engine
+**Development Stage**
+
+```
+Minimum Viable Product (MVP)
+```
+
+**Completed Milestones**
+
+- Hardware sensing layer
+- Entry Gate subsystem
+- Exit Gate subsystem
+- Servo scanning subsystem
+- Event engine
+- Occupancy state machine
+- Occupancy engine
+- Live occupancy counter
+- Automatic light controller
+- End-to-end room automation workflow
+
+---
+
+## Project Principles
+
+### Event-Driven
+
+Hardware signals are converted into events before higher-level processing.
+
+### Modular
+
+Each subsystem has a single responsibility and communicates through well-defined interfaces.
+
+### Layered Architecture
+
+Each layer depends only on the layer directly below it, improving maintainability and scalability.
+
+### Reliability First
+
+The focus is on accurate occupancy detection and robust event processing.
+
+### Incremental Development
+
+Each feature is developed, tested, and integrated independently before moving to the next milestone.
