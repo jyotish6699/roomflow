@@ -3,6 +3,7 @@
 
 #include "sensors/entry_gate_sensor.h"
 #include "actuators/servo_scanner.h"
+#include "events/event.h"
 
 class EntryGate
 {
@@ -17,6 +18,8 @@ public:
     float getLeftDistance() const;
     float getCenterDistance() const;
     float getRightDistance() const;
+
+    Event getEvent() const;
 
 private:
     EntryGateSensor _sensor;

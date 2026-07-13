@@ -2,6 +2,8 @@
 
 #include "gateways/entry_gate.h"
 #include "gateways/exit_gate.h"
+#include "events/event.h"
+#include "events/event_type.h"
 
 EntryGate entryGate;
 ExitGate exitGate;
@@ -19,19 +21,18 @@ void loop()
     entryGate.update();
     exitGate.update();
 
-    Serial.println("==========");
+    Event entryEvent = entryGate.getEvent();
+    Event exitEvent = exitGate.getEvent();
 
-    Serial.print("LEFT: ");
-    Serial.println(entryGate.getLeftDistance());
+    if (entryEvent.type != EventType::NONE)
+    {
+        Serial.println(eventToString(entryEvent.type));
+    }
 
-    Serial.print("CENTER: ");
-    Serial.println(entryGate.getCenterDistance());
-
-    Serial.print("RIGHT: ");
-    Serial.println(entryGate.getRightDistance());
-
-    Serial.print("EXIT: ");
-    Serial.println(exitGate.getDistance());
+    if (exitEvent.type != EventType::NONE)
+    {
+        Serial.println(eventToString(exitEvent.type));
+    }
 
     delay(100);
 }

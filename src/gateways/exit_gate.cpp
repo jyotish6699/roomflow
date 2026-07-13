@@ -21,3 +21,18 @@ float ExitGate::getDistance() const
 {
     return _distance;
 }
+
+Event ExitGate::getEvent() const
+{
+    Event event;
+
+    event.type = EventType::NONE;
+
+    if (_distance >= 0 &&
+        _distance < EXIT_THRESHOLD_CM)
+    {
+        event.type = EventType::EXIT_DETECTED;
+    }
+
+    return event;
+}

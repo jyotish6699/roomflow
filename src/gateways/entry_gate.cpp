@@ -47,3 +47,28 @@ float EntryGate::getRightDistance() const
 {
     return _rightDistance;
 }
+
+Event EntryGate::getEvent() const
+{
+    Event event;
+
+    event.type = EventType::NONE;
+
+    if (_leftDistance >= 0 &&
+        _leftDistance < ENTRY_THRESHOLD_CM)
+    {
+        event.type = EventType::ENTRY_LEFT_DETECTED;
+    }
+    else if (_centerDistance >= 0 &&
+             _centerDistance < ENTRY_THRESHOLD_CM)
+    {
+        event.type = EventType::ENTRY_CENTER_DETECTED;
+    }
+    else if (_rightDistance >= 0 &&
+             _rightDistance < ENTRY_THRESHOLD_CM)
+    {
+        event.type = EventType::ENTRY_RIGHT_DETECTED;
+    }
+
+    return event;
+}
