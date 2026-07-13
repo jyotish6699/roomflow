@@ -3,10 +3,16 @@
 #include "sensors/entry_gate_sensor.h"
 #include "actuators/servo_scanner.h"
 #include "config/roomflow_config.h"
+#include "sensors/exit_gate_sensor.h"
 
 EntryGateSensor entrySensor(
     ENTRY_TRIG_PIN,
     ENTRY_ECHO_PIN
+);
+
+ExitGateSensor exitSensor(
+    EXIT_TRIG_PIN,
+    EXIT_ECHO_PIN
 );
 
 ServoScanner scanner(SERVO_PIN);
@@ -17,6 +23,7 @@ void setup()
 
     entrySensor.begin();
     scanner.begin();
+    exitSensor.begin();
 }
 
 void loop()
@@ -49,6 +56,11 @@ void loop()
 
     Serial.print("RIGHT: ");
     Serial.println(rightDistance);
+
+    float exitDistance = exitSensor.getDistance();
+
+    Serial.print("EXIT: ");
+    Serial.println(exitDistance);
 
     delay(100);
 }
