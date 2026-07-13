@@ -3,10 +3,14 @@
 OccupancyStateMachine::OccupancyStateMachine()
 {
     _state = OccupancyState::IDLE;
+    _action = OccupancyAction::NONE;
 }
 
 void OccupancyStateMachine::update(const Event& event)
 {
+
+    _action = OccupancyAction::NONE;
+
     switch (_state)
     {
         case OccupancyState::IDLE:
@@ -36,6 +40,8 @@ void OccupancyStateMachine::update(const Event& event)
             if(event.type == EventType::EXIT_DETECTED)
             {
                 _state = OccupancyState::IDLE;
+
+                _action = OccupancyAction::PERSON_ENTERED;
             }
 
             break;
@@ -47,6 +53,8 @@ void OccupancyStateMachine::update(const Event& event)
                event.type == EventType::ENTRY_RIGHT_DETECTED)
             {
                 _state = OccupancyState::IDLE;
+
+                _action = OccupancyAction::PERSON_EXITED;
             }
 
             break;
@@ -56,4 +64,9 @@ void OccupancyStateMachine::update(const Event& event)
 OccupancyState OccupancyStateMachine::getState() const
 {
     return _state;
+}
+
+OccupancyAction OccupancyStateMachine::getAction() const
+{
+    return _action;
 }

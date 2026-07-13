@@ -6,11 +6,12 @@
 #include "events/event_type.h"
 #include "occupancy/occupancy_state_machine.h"
 #include "occupancy/occupancy_state.h"
+#include "occupancy/occupancy_engine.h"
 
 EntryGate entryGate;
 ExitGate exitGate;
 
-OccupancyStateMachine stateMachine;
+OccupancyEngine occupancyEngine;
 
 void setup()
 {
@@ -28,15 +29,34 @@ void loop()
     Event entryEvent = entryGate.getEvent();
     Event exitEvent = exitGate.getEvent();
 
-    stateMachine.update(entryEvent);
-    stateMachine.update(exitEvent);
+    occupancyEngine.update(entryEvent);
+    occupancyEngine.update(exitEvent);
 
-    Serial.print("State : ");
+    Serial.println("================================");
+
+    Serial.print("State      : ");
     Serial.println(
         occupancyStateToString(
-            stateMachine.getState()
+            occupancyEngine.getState()
         )
     );
+
+    Serial.print("Entry Event: ");
+    Serial.println(
+        eventToString(entryEvent.type)
+    );
+
+    Serial.print("Exit Event : ");
+    Serial.println(
+        eventToString(exitEvent.type)
+    );
+
+    Serial.print("Occupancy  : ");
+    Serial.println(
+        occupancyEngine.getOccupancyCount()
+    );
+
+    Serial.println("================================");
 
     delay(100);
 }

@@ -3,6 +3,7 @@
 
 #include "events/event.h"
 #include "occupancy/occupancy_state.h"
+#include "occupancy/occupancy_action.h"
 
 class OccupancyStateMachine
 {
@@ -13,8 +14,12 @@ public:
 
     OccupancyState getState() const;
 
+    OccupancyAction getAction() const;
+
 private:
     OccupancyState _state;
+
+    OccupancyAction _action;
 };
 
 #endif
