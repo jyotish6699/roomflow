@@ -4,9 +4,13 @@
 #include "gateways/exit_gate.h"
 #include "events/event.h"
 #include "events/event_type.h"
+#include "occupancy/occupancy_state_machine.h"
+#include "occupancy/occupancy_state.h"
 
 EntryGate entryGate;
 ExitGate exitGate;
+
+OccupancyStateMachine stateMachine;
 
 void setup()
 {
@@ -24,15 +28,15 @@ void loop()
     Event entryEvent = entryGate.getEvent();
     Event exitEvent = exitGate.getEvent();
 
-    if (entryEvent.type != EventType::NONE)
-    {
-        Serial.println(eventToString(entryEvent.type));
-    }
+    stateMachine.update(entryEvent);
+    stateMachine.update(exitEvent);
 
-    if (exitEvent.type != EventType::NONE)
-    {
-        Serial.println(eventToString(exitEvent.type));
-    }
+    Serial.print("State : ");
+    Serial.println(
+        occupancyStateToString(
+            stateMachine.getState()
+        )
+    );
 
     delay(100);
 }
