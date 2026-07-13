@@ -1,29 +1,23 @@
 #include <Arduino.h>
 
 #include "gateways/entry_gate.h"
-#include "sensors/exit_gate_sensor.h"
-#include "config/roomflow_config.h"
+#include "gateways/exit_gate.h"
 
 EntryGate entryGate;
-
-ExitGateSensor exitSensor(
-    EXIT_TRIG_PIN,
-    EXIT_ECHO_PIN
-);
+ExitGate exitGate;
 
 void setup()
 {
     Serial.begin(9600);
 
     entryGate.begin();
-    exitSensor.begin();
+    exitGate.begin();
 }
 
 void loop()
 {
     entryGate.update();
-
-    float exitDistance = exitSensor.getDistance();
+    exitGate.update();
 
     Serial.println("==========");
 
@@ -37,7 +31,7 @@ void loop()
     Serial.println(entryGate.getRightDistance());
 
     Serial.print("EXIT: ");
-    Serial.println(exitDistance);
+    Serial.println(exitGate.getDistance());
 
     delay(100);
 }
